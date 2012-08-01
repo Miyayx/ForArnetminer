@@ -1,0 +1,57 @@
+@charset "utf-8";
+#header{margin:0 auto;width:960px;}
+/*Logo*/
+#logo{display:block;width:211px;height:30px;line-height:30px;background:url(../images/common/header/logo.png) no-repeat;float:left;margin-top:60px;padding:0;text-align:center;}
+/*#logo .t{font-size: 36px;text-decoration: none;line-height: 30px;background-color: #1896e5;color: white;height: 30px;font-family: sans-serif;width: 112px;display: block;text-align: center;}*/
+/*Top Bar*/
+#topbar{float:right;margin-top:6px;}
+#topbar li{float:left;line-height:26px;}
+#topbar li a{display:inline-block;color:#333;font-weight:bold;}
+#topbar li.cur{position:relative;z-index:999;}
+#topbar li.cur a.menu_lk{padding:0;color:#fff;}
+#topbar li.cur a.menu_lk em,
+#topbar li.cur a.menu_lk span{background:url(../images/common/header/bg_menu.gif) no-repeat;display:block;float:left;height:26px;cursor:pointer;}
+#topbar li.cur a.menu_lk span{background-position:0 -152px;background-repeat:repeat-x;}
+#topbar li.cur a.menu_lk em.cur_l{background-position:0 -120px;width:10px;}
+#topbar li.cur a.menu_lk em.cur_r{background-position:right -184px;width:10px;}
+#topbar em.vline{margin:0 6px;}
+
+/*Login Layer for Top Bar*/
+#loginbar{position:absolute;line-height:1.4em;right:0;right:2px\0;top:26px;background:#52ad46;width:220px;padding:5px 10px 10px;filter:progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=210, color=#88888888);-webkit-box-shadow:0 2px 6px #888;-moz-box-shadow:0 2px 6px #888;box-shadow:0 2px 6px #888;-moz-border-radius-bottomleft:4px;-moz-border-radius-bottomright:4px;webkit-border-bottom-left-radius:4px;webkit-border-bottom-right-radius:4px; border-bottom-left-radius:4px;border-bottom-right-radius:4px;}
+#topbar li #loginbar a{font-weight:normal;}
+#tips_login{font-size:11px;line-height:12px;color:#ffe42d;height:30px;overflow:hidden;}
+#loginbar dl dt{font-size:11px;font-weight:bold;color:#fff;float:left;width:74px;height:30px;line-height:22px;}
+#loginbar dl dd{width:140px;float:left;height:30px;}
+#loginbar dl dd input{width:134px;background:#fff url(../images/common/header/bg_input.gif) repeat-x;border:1px solid #0f8a06;height:20px;padding:0 3px;}
+#loginbarbtm{text-align:right;margin-right:4px;}
+#loginbarbtm a.fs_11{color:#fff;float:left;margin:4px 0 0 40px;}
+/*Top Menu*/
+#top_menu,
+#top_menu_l,
+#top_menu_r{background:url(../images/common/header/bg_menu.gif) no-repeat;height:40px;}
+#top_menu{float:right;clear:right;background-repeat:repeat-x;margin-top:30px;margin-bottom:-2px;width:440px;}
+#top_menu_l{float:left;width:25px;background-position:0 -40px;} 
+#top_menu_r{float:right;width:25px;background-position:0 -80px;}
+#top_menu_c{float:left;width:390px;}
+/* add by gb */
+.top_menu_container{background:none !important;}
+	
+#ls_menu{}
+#ls_menu li{float:left;margin:6px 0 0;}
+#ls_menu li a.menu_lk{color:#fff;font-size:14px;line-height:26px;font-weight:bold;display:block;padding:0 10px;}
+/*Header Bottom Line*/
+#header_line{background:#aacce2;width:100%;height:1px;overflow:hidden;clear:both;}
+/*Top search */
+.btn_topsrch,.slct_topsrch{background:url(../images/common/header/srch_cat_slct.gif) no-repeat;}
+.txt_topsrch{width:240px;height:20px;margin:4px 0 0 0;float:left;font-size:14px;}
+.btn_topsrch{display:block;width:28px;height:28px;margin:4px 4px 0;background-position:0 -50px;float:left;}
+.btn_topsrch:hover{background-position:-30px -50px;}
+.slct_topsrch{width:103px;height:32px;display:block;position:relative;color:#fff;font-weight:bold;font-size:13px;float:left;z-index:10;}
+	.slct_topsrch p{padding:7px 26px 0 8px;overflow:hidden; white-space:nowrap;}
+	.slct_topsrch ul{position:absolute;top:26px;right:2px;background-color:#38a339;line-height:22px;padding:2px;min-width:95px;}
+	.slct_topsrch ul li{padding:0 4px; white-space:nowrap;}
+	.slct_topsrch ul li:hover{background-color:#89d284;cursor:pointer;}
+/*if IE6*/
+#logo{-background:none;-filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/common/header/logo.png');cursor:pointer;}
+.slct_topsrch ul{-right:1px;-width:95px;}
+

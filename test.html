@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0108)file:///home/yang/arbor-v0.92/myArnetminer/Association%20Search%20-%20Instant%20Social%20Graph%20Search.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>Association Search - Instant Social Graph Search</title>
+
+<style>
+<!--
+/** TEMPFIX: hide UserCenterControl Dropdown List */
+#uc-h-btnset{display:none !important}
+-->
+
+.myButton {
+position: relative;
+Adding Mouse and Touch Controls to Canvas
+Creating Custom Canvas Controls
+2011-03-14   |   © 2011 Apple Inc. All Rights Reserved.
+140top:-60;
+left:10;
+border: 4 px outset #c0c0c0;
+background-color: #e0e0e0;
+width:100 px;
+padding: 10 px;
+text-align:center;
+border-radius: 18 px;
+}
+
+</style>
+
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/common.css">
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/layout.css">
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/header.css">
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/footer.css">
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/panels.css">
+
+<script type="text/javascript" src="./Association Search - Instant Social Graph Search_files/jquery.min.js"></script>
+<script type="text/javascript" src="./Association Search - Instant Social Graph Search_files/basic_fn.js"></script>
+
+<script type="text/javascript">
+var Tapestry = {
+init : function(spec) {
+       },
+onDOMLoaded : function(callback) {
+	      }
+};
+</script>
+
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/association-search.css">
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/jquery-ui.css">
+<script type="text/javascript" src="./Association Search - Instant Social Graph Search_files/jquery-ui.js"></script>
+<script type="text/javascript" src="./Association Search - Instant Social Graph Search_files/association-search.js"></script>
+<script type="text/javascript" src="./Association Search - Instant Social Graph Search_files/imws_basic.js"></script>
+</head>
+<body>
+
+
+<div id="container">
+<div id="main">
+
+<center>
+<div class="ass_search_box" style="width: 600px; text-align: left;">
+<form action="" method="get">
+<input id="sn-search-box" name="query" type="text" value="Hector Garcia-Molina and Scott Shenker">
+<input type="submit" name="Submit" id="submit_btn" value="Search" class="ui-state-default ui-corner-all submit" style="margin-right: 3em; cursor: pointer;" onmouseover="$(this).addClass(&#39;ui-state-hover&#39;);" onmouseout="$(this).removeClass(&#39;ui-state-hover&#39;);">
+<br>
+<span style="margin-left: 20px;"> Input names separated by "and" or ",". </span>
+</form>
+</div>
+</center>
+<br>
+
+<div id="cover" class="cover" style="width: 92%; text-align: center; display: none; ">
+<center>
+<table style="text-align: left; border: solid 1px gray;" cellspacing="20px;">
+<tbody><tr>
+</tr>
+<tr>
+</tr>
+</tbody></table>
+</center>
+</div>
+
+<div id="sn_h" class="ass_main" style="border: 0px solid red; ">
+<table style="width: 100%;">
+<tbody><tr style="vertical-align: top;">
+<td width="160px;">
+<div class="persons">
+<span style="font-weight: plain">Associations For:</span>
+<br>
+<span id="msg_final_persons"></span>
+<br>
+</div>
+</td>
+<td width="auto">
+
+<div id="sn_graph" class="graph">  
+<canvas id="sitemap" style="opacity: 1; display: inline; " class="linkable"></canvas>
+
+</div>
+</div>
+</td>
+</tr>
+</tbody></table>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+var resource_domain = 'arnetminer.org:80';
+var imws_domain = 'arnetminer.org:80';
+var wsClient = new ArnetminerWebServiceClient();
+// init
+wsClient.init({
+domain : imws_domain,
+resource_domain : resource_domain,
+username : 'vivo',
+animate : true,
+animate_fadeout : 50,
+animate_fadein : 100,
+load_js : [ 'res/imws/chain.js' ],
+load_ext_js : [ 'res/imws/imws_person_info_for_association.js' ],
+load_ext_css : [ 'res/imws/css/person_info.css' ],
+page_fields_select : 'id,name,affiliation,pictureUrl'
+});
+</script><script src="./Association Search - Instant Social Graph Search_files/chain.js" type="text/javascript"></script><script src="./Association Search - Instant Social Graph Search_files/imws_person_info_for_association.js" type="text/javascript"></script><link href="./Association Search - Instant Social Graph Search_files/init-context.css" type="text/css" rel="stylesheet"><link href="./Association Search - Instant Social Graph Search_files/person_info.css" type="text/css" rel="stylesheet"><script src="./Association Search - Instant Social Graph Search_files/chain(1).js" type="text/javascript"></script><script src="./Association Search - Instant Social Graph Search_files/imws_person_info_for_association(1).js" type="text/javascript"></script><link href="./Association Search - Instant Social Graph Search_files/init-context(1).css" type="text/css" rel="stylesheet"><link href="./Association Search - Instant Social Graph Search_files/person_info(1).css" type="text/css" rel="stylesheet"><script src="./Association Search - Instant Social Graph Search_files/chain(2).js" type="text/javascript"></script><script src="./Association Search - Instant Social Graph Search_files/imws_person_info_for_association(2).js" type="text/javascript"></script><link href="./Association Search - Instant Social Graph Search_files/init-context(2).css" type="text/css" rel="stylesheet"><link href="./Association Search - Instant Social Graph Search_files/person_info(2).css" type="text/css" rel="stylesheet">
+
+
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/default.css">
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/common(1).css">
+<link type="text/css" rel="stylesheet" href="./Association Search - Instant Social Graph Search_files/footer(1).css">
+
+<link type="text/css" rel="stylesheet" href="./arbor.js_files/site.css">
+<script src="./arbor.js_files/jquery-1.6.1.min.js"></script>
+<script src="./arbor.js_files/jquery.address-1.4.min.js"></script>
+<script src="./arbor.js_files/arbor.js"></script>
+<script src="./arbor.js_files/arbor-tween.js"></script>
+<script src="./arbor.js_files/arbor-graphics.js"></script>
+
+<script src="./arbor.js_files/site2.js"></script>
+
+<script src="data_process2.js"></script>
+</body></html>

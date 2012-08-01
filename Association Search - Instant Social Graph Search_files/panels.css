@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+.panel_titr{float:right;height:22px;width:4px;}
+.panel_titr a{width:22px;height:22px;display:inline-block;}
+
+.panel_tit,.panel_tit h2,.panel_tit .panel_titr{background:url(../../images/srch_rslt/bg_srch_tit.gif) no-repeat;height:22px;}
+.panel_tit h2{font-size:12px;color:#fff;padding:0 0 0 10px;line-height:22px;}
+.panel_tit h2 .app_logo{line-height:22px; border: solid 1px gray;width: 16px;height: 16px;vertical-align:-4px;}
+.panel_tit .fn_area{float: right;line-height: 22px;padding: 2px;}
+
+
+.panel_01 .panel_tit{background-position:0 -22px;background-repeat:repeat-x;}
+.panel_01 .panel_tit .panel_titr{background-position:right -44px;}
+.panel_01 .panel_tit .fn_area{padding: 1px;}
+
+.panel_02 .panel_tit,.panel_02 .panel_tit h2,.panel_02 .panel_tit panel_titr{height:24px;line-height:24px;}
+.panel_02 .panel_tit{background-position:0 -90px;background-repeat:repeat-x;}
+.panel_02 .panel_tit h2{background-position:0 -66px;}
+.panel_02 .panel_tit .panel_titr{background-position:right -114px;}
+.panel_02 .panel_con{background:#f6f6f6;padding-bottom:15px;margin-bottom:30px;}
+
+.panel_03 .panel_tit,.panel_03 .panel_tit h2,.panel_03 .panel_tit panel_titr{height:24px;line-height:24px;}
+.panel_03 .panel_tit{background-position:0 -90px;background-repeat:repeat-x;float:left;}
+.panel_03 .panel_tit h2{background-position:0 -66px;font-size:16px;float:left;padding-left:30px;}
+.panel_03 .panel_tit .panel_titr{background-position:right -114px;float:left;padding-left:28px;}
+.panel_03 .panel_con{border:3px solid #dee6ff;clear:both;zoom:1;padding:10px 10px 15px;}
+.panel_03 .edit.spe{margin:6px 0 0 10px;float:left;}
+
+/* for tabs in panel_03 */
+.multi_tabs .panel_tit {height: 20px;}
+.multi_tabs .panel_tit .tabb{float:left;background:none;height: 20px;border-bottom:solid 2px rgb(181,214,255);}
+.multi_tabs .panel_tit h2 {padding-left:8px;font-size:12px;text-shadow: black;height: 20px;}
+.multi_tabs .panel_tit .panel_titr{padding-left:4px;height: 20px;}
+.multi_tabs .panel_tit .panel_titr_space{width:1px;height:100%;border:none;float: left;background-image: none;background-color:white;}
+.multi_tabs .panel_tit .tabb:hover{border-bottom:solid 2px orange;}
+.multi_tabs .panel_tit .selected{border-bottom:solid 2px orange;}
+
+
+/* side panel, first used in publication page. */
+.side_panel {border:solid 0px red;display:block;float:right;width:260px;background-color:rgba(248,250,255,0.4);border-left:solid 1px rgba(245,247,251,0.4);}
+.side_panel .block {border-bottom:dotted 1px #DDD;padding:0 0px 8px 0px;margin-top:4px;}
+	.side_panel .compact {padding-bottom:0px;}
+	.side_panel .no_spliter {border-bottom:none;}
+.side_panel .already-fixed {position: fixed;top: 20px;width: 260px;}
+.side_panel .spliter {border-bottom:dotted 1px #DDD;height:0;margin-top:4px 0;}
+.side_panel .block .block_title{background-color: #eee;padding: 2px 4px;font-variant:normal;font-weight:bold;color:#666;
+	border-top: solid 1px #ddd;border-bottom: solid 1px #ddd;}
+.side_panel .block .block_content{padding:2px 4px;}
+

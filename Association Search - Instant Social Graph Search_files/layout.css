@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+#container{width:960px;margin:20px auto 0;zoom:1;}
+#container:after{content:"";display:block;overflow:hidden;height:0;clear:both;}
+
+/*1栏布局在container后面跟class*/
+.ly_bg_blue{background:url(../images/common/bg_con.gif) repeat-x 0 0;padding:20px;}
+
+/*2栏布局*/
+#main{float:left;width:650px;}
+#side{float:right;width:290px;}
+
+.top_nav{margin:4px;margin-bottom: 10px;font-size: 11px;}
+
+/*全页表单*/
+.ly_form{margin:20px 80px;}
+h1.ly_form_tit{color:#4b4b4b;font-size:24px;margin:0 10px 8px;}
+.ly_form_con{border:2px solid #dee6ff;}
+
+.small-left>#main{float:right;width:750px}
+.small-left>#side{float:left;width:200px;margin-right:10px;}
+

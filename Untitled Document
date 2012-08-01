@@ -1,0 +1,29 @@
+  	// helpers for figuring out where to draw arrows (thanks springy.js)
+  	var intersect_line_line = function(p1, p2, p3, p4)
+  	{
+  		var denom = ((p4.y - p3.y)*(p2.x - p1.x) - (p4.x - p3.x)*(p2.y - p1.y));
+  		if (denom === 0) return false // lines are parallel
+  		var ua = ((p4.x - p3.x)*(p1.y - p3.y) - (p4.y - p3.y)*(p1.x - p3.x)) / denom;
+  		var ub = ((p2.x - p1.x)*(p1.y - p3.y) - (p2.y - p1.y)*(p1.x - p3.x)) / denom;
+
+  		if (ua < 0 || ua > 1 || ub < 0 || ub > 1)  return false
+  		return arbor.Point(p1.x + ua * (p2.x - p1.x), p1.y + ua * (p2.y - p1.y));
+  	}
+
+  	var intersect_line_box = function(p1, p2, boxTuple)
+  	{
+  	  var p3 = {x:boxTuple[0], y:boxTuple[1]},
+      	  w = boxTuple[2],
+      	  h = boxTuple[3]
+  	  
+  		var tl = {x: p3.x, y: p3.y};
+  		var tr = {x: p3.x + w, y: p3.y};
+  		var bl = {x: p3.x, y: p3.y + h};
+  		var br = {x: p3.x + w, y: p3.y + h};
+
+      return intersect_line_line(p1, p2, tl, tr) ||
+             intersect_line_line(p1, p2, tr, br) ||
+             intersect_line_line(p1, p2, br, bl) ||
+             intersect_line_line(p1, p2, bl, tl) ||
+             false
+  	}

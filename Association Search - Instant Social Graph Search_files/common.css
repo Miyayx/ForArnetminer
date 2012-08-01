@@ -1,0 +1,107 @@
+@charset "utf-8";
+/*
+@import "header.css";
+@import "footer.css";
+@import "layout.css";
+*/
+body{font:12px/1.4 Arial, Helvetica, sans-serif;background:url(../images/common/bg_body.gif) repeat-x;-webkit-text-size-adjust: none;}
+html,body,dl,dt,dd,ul,ol,li,p,h1,h2,h3,h4{margin:0;padding:0;}
+input,text{font:12px/1.4 Arial, Helvetica, sans-serif;}
+li{list-style:none;}
+a{text-decoration:none;color:#0085d8;}
+a:hover{text-decoration:underline;}
+img{border:none;}
+/*对齐方式*/
+.alignr{text-align:right;}
+
+/*浮动*/
+.floatl{float:left;}
+.floatr{float:right;}
+.clear{clear:both;}
+.clear_9{clear:both;zoom:1;}
+.clear_9:after{content:"";display:block;overflow:hidden;height:0;clear:both;}
+
+/*字号*/
+.fs_11{font-size:11px;}
+
+/*标题*/
+h1.h1_01{font-size:18px;}
+
+/*内边距*/
+.pad_t_10{padding-top:10px;}
+.pad_t_20{padding-top:20px;}
+
+/*公用组件*/
+	a.btn_green{background:#288f00;border:1px solid #71e162;display:inline-block;padding:2px 8px;color:#fff!important;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;line-height:1.4em;}
+	a.btn_green:hover{background:#269717;text-decoration:none;}
+	a.btn_blue_big,a.btn_blue_big em{background:url(../images/common/btns.gif) no-repeat;display:inline-block;}
+	
+	a.btn_blue_big,a.btn_blue_big em{height:38px;color:#fff;font:normal bold 14px/38px Arial;cursor:pointer;}
+	a.btn_blue_big{padding-left:30px;}
+	a.btn_blue_big em{background-position:right -40px;padding-right:30px;}
+	a.btn_blue_big:hover{background-position:0 -80px;text-decoration:none;}
+	a.btn_blue_big:hover em{background-position:right -120px;}
+	
+
+	a.ls_rslt_more{display:block;text-align:center;font:bold 14px/2em Verdana, Geneva, sans-serif;background-color:#f5fbff;border:1px solid #dcecf6;height:30px;overflow:hidden;top:-1px;position:relative;}
+	a.ls_rslt_more:hover{text-decoration:none;background-color:#ddf2ff;border:1px solid #b8e3fe;}
+	p.nodata{margin:20px 0;}/*无数据*/
+	div.nobgbtm{height:1px;overflow:hidden;background:#fff;position:relative;top:-1px;}
+
+/*icons*/
+.icon_home,.icon_img,.icon_ok,.icon_error,.icon_comm,.icon_good,.icon_bad,.icon_hide,.icon_show{background:url(../images/common/icons.png) no-repeat;_background-image:url(../images/common/icons.gif);display:inline-block;width:16px;height:16px;}
+.icon_home{background-position:-0px -0px;}
+.icon_img{background-position:-20px 0;}
+.icon_good{background-position:-40px 0;}
+.icon_bad{background-position:-60px 0;}
+.icon_error{background-position: 0 -20px;}
+.icon_ok{background-position: -20px -20px;}
+.icon_comm{background-position: -40px -20px;}
+.icon_show{background-position:-60px -20px;}
+.icon_hide{background-position:-80px -20px;}
+/*小操作链接*/
+.edit,
+.bibtex,
+.follow,
+.foaf,
+.fnbtn{font: 11px Tahoma;color:#fff;padding:0 3px; white-space:nowrap;margin:0 1px;}
+
+.edit:hover,
+.bibtex:hover,
+.follow:hover,
+.foaf:hover,
+.fnbtn:hover{text-decoration:none;}
+
+.edit{color:#1da313;}
+.edit:hover{color:#fff;background:#1da313;}
+
+.bibtex{background:#f64f4f;}
+.bibtex:hover{background:#ff7a7a;}
+
+.follow{background:#ff9f22;}
+.follow:hover{background:#ffbb63;}
+
+.foaf{background:#49be45;}
+.foaf:hover{background:#79d675;}
+
+.fnbtn{background:#ff9f22;padding: 1px 3px;}
+.fnbtn:hover{background:#ffbb63;}
+
+.h{display:none}
+
+/** Fix Tapestry */
+HTML>BODY DIV.t-error LI {margin-left: 4px !important;}
+
+/** JQuery UI Extend */
+.jq-error-box {vertical-align: middle;float: left !important;margin: 0.7em;padding: 2px 10px;color: red;}
+
+/** dev **/
+.admin_area{border: solid 1px gray;background-color:orange;margin: 2px;padding: 1px;font-family: Menlo;font-size: 12px;color: white;}
+
+/** add by elivoa **/
+.inline{display:inline;}
+
+/** for google ad */
+.google-gg {margin:4px 1px;padding:1px;text-align: center;}
+.google-gg-wb {margin:8px 8px;padding:1px;text-align: center;}
+

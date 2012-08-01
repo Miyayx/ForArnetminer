@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+.ass_search_box {margin: 1px 5px 5px 5px;}
+#sn-search-box {width: 430px;color: #565656;font-size: 14px;line-height: 16px; margin: 0px 10px 0 20px;}
+.input_label {font-size: 14px;line-height: 24px;}
+.input_note {line-height: 24px;color: black}
+.input_note a {color: #eee}
+.input_note a:hover {text-decoration: underline;}
+
+.ass_main {float: left;width: 100%;border: solid 0px gray}
+.ass_main .persons {margin: 0px;float: left;border: solid 0px red;width: 152px;}
+.ass_main .graph {float: left;border: solid 1px gray;width: 800px;height: 640px;margin: 1px;}
+
+#msg_final_persons{color: gray;padding: 5px 0;font-size: 12px;line-height: 18px;height: 18px;}
+
+
+.debug_border {border:solid 1px red}
+.spliter {height: 20px;clear: both;}
+
+
+/* NA bar */
+
+.na_scholar {text-align: left;clear:both;}
+.na_scholar .show_all_link {border: solid 1px #1f729b;padding: 2px;}
+.na_scholar .show_all_link:hover {background: #2588ba;border: solid 1px #6fbee7;}
+
+.na_scholar #scroll_left {float: left;width:28px;height:140px;border : solid 1px gray;margin: 1px;}
+.na_scholar #scroll_left:hover {background: #2588ba;border: solid 1px #6fbee7;cursor: pointer;}
+.na_scholar #scroll_right {float: left;width:28px;height:140px;border : solid 1px gray;margin: 1px;}
+.na_scholar #scroll_right:hover {background: #2588ba;border: solid 1px #6fbee7;cursor: pointer;}
+.na_scholar #scroll_left span, .na_scholar #scroll_right span
+	{display:block; margin: 50px 2px;font-weight: bolder;font-size: 24px}
+
+.na_scholar .scroll_area {width: auto;overflow-x: scroll;float: left;width:890px;}
+.na_scholar .inner_panel {width: 10000px}
+
+.na_scholar .title {font-size: 13px;font-weight: bold;margin-bottom: 4px;padding: 0;}
+.na_scholar .na_person {float: left;width: 168px;height:130px;margin: 2px;overflow: hidden;padding:0;
+	text-align: left;font-family:"Verdana";border: solid 1px #1f729b;padding: 2px;}
+
+.na_scholar .na_person:hover {background: #2588ba;border: solid 1px #6fbee7;cursor: pointer;}
+.na_scholar .selected {background: #2588ba;border: solid 1px #6fbee7}
+
+.na_scholar .na_person .head-pic {float: left;}
+.na_scholar .na_person .img {float: left;margin-right: 2px;margin-bottom: 2px;}
+
+.na_scholar .na_person .info {clear: right;height: 62px;width:112px;float:left;clear: right;}
+.na_scholar .na_person .name {display: block;margin-left: 2px;padding-top:3px; width:108px;border: solid 0px red;}
+.na_scholar .na_person .name a {font-size: 12px}
+.na_scholar .na_person .name a:hover {text-decoration: underline;}
+.na_scholar .na_person .name sup {color: orange}
+.na_scholar .na_person .affilation {display: block;height: 50px;width:165px; overflow: hidden;clear: both;margin-top:2px;
+	font-family:"Tahoma";font-size:12px;}
+
+/** Cover */
+#cover{border: solid 0px gray;padding: 18px;text-align: center;}
+
+
+/** Support Full Screen*/
+#content {margin: 0 3% 0 3%;width: 94%;min-width: 960px;}
+#main {width: 100%; margin: 0;text-align: left;}
+#sn_graph {width: 100%;}
+
+
+
+
