@@ -228,10 +228,10 @@ var originalData =
 	function changeJson(){
 		//var original = new Array(32); 
 	//	var queried = [963489,1120181,397055,74831,412623,666565]; 
-	//	var queried = [963489,1120181,397055,74831,412623]; 
-//		var queried = [963489,1120181,397055,74831]; 
+		var queried = [963489,1120181,397055,74831,412623]; 
+	//	var queried = [963489,1120181,397055,74831]; 
 	//	var queried = [963489,1120181,397055]; 
-		var queried = [963489,1120181]; 
+	//	var queried = [963489,1120181]; 
 	//	var queried = [1120181]; 
 		var original = originalData;
 		var site = {};
@@ -328,4 +328,8 @@ function getSizeFromWeight(weight){
 	var maxSize = 75;
 
 	return minSize+(maxSize-minSize)*(weight/(100-0));
+}
+
+function findPathsBetweenTwoNodes(cNode,pNode,sNode,eNode){
+
 }
