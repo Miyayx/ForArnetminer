@@ -27,6 +27,7 @@
  var removeP = {};
 
  var nodeBoxes = {};
+var edgeBoxes;
 
  var intersect_line_node = function(p1, p2, boxTuple)
  {
@@ -137,50 +138,59 @@ redraw:function(){
 					       ctx.strokeStyle = imgLineColor;
 				       size = node.data.img.size;
 			       }
-
-			       image.onerror = function(){
-				       this.src = './pic/no_photo.png';
-			       }
+			       //
+			       //			       image.onerror = function(){
+			       //				       this.src = "http://pic.aminer.org/picture/images/no_photo.jpg";
+			       //			       }
 			       label = node.data.name.substr(0,10);
 			       if (node.data.name.length > 10) label += '...';
 
 			       var imgHeight = size,imgWidth = image.width*size/image.height;
+			       var radius = Math.min(imgWidth/2,imgHeight/2);
 			       if(node.data.moved){
-				       ctx.drawImage(image, pt.x-imgWidth/2,pt.y-imgHeight/2,imgWidth,imgHeight);
+				       ctx.save();
 				       ctx.beginPath();
-				       ctx.rect(pt.x-imgWidth/2, pt.y-imgHeight/2, imgWidth, imgHeight);
+				       ctx.arc(pt.x,pt.y,radius,0, Math.PI * 2, true);
+				       ctx.clip();
 				       ctx.closePath();
-				       ctx.lineWidth = 3;
+				       ctx.drawImage(image, pt.x-radius,pt.y-size/2,imgWidth,imgHeight);
+				       ctx.lineWidth =10; 
 				       ctx.stroke();
-if(node.data.details){
-				       var details = node.data.details.split('\n');
-				       //var detailPositions= new Array();
-				       //detailPositions[1]={x:pt.x-imgWidth/2-gfx.textWidth(details[1])-2,y:pt.y-10};
-				       //detailPositions[0]={x:pt.x-gfx.textWidth(details[0])/2,y:pt.y+imgHeight/2+2};
-				       //detailPositions[2]={x:pt.x+imgWidth/2+2,y:pt.y-10};
+				       ctx.restore();
+				       //ctx.beginPath();
+				       //ctx.rect(pt.x-imgWidth/2, pt.y-imgHeight/2, imgWidth, imgHeight);
+				       //ctx.closePath();
+				       //  ctx.lineWidth = 8;
+				       //ctx.stroke();
+				       if(node.data.details){
+					       var details = node.data.details.split('\n');
+					       //var detailPositions= new Array();
+					       //detailPositions[1]={x:pt.x-imgWidth/2-gfx.textWidth(details[1])-2,y:pt.y-10};
+					       //detailPositions[0]={x:pt.x-gfx.textWidth(details[0])/2,y:pt.y+imgHeight/2+2};
+					       //detailPositions[2]={x:pt.x+imgWidth/2+2,y:pt.y-10};
 
-				       //for(var i=0;i<details.length;i++){
-				       //        var textLen = gfx.textWidth(details[i]);
-				       //        gfx.rect(detailPositions[i].x, detailPositions[i].y, textLen, 20, 4, {fill:ctx.strokeStyle, alpha:node.data.alpha});
-				       //        gfx.text(details[i], detailPositions[i].x+textLen/2, detailPositions[i].y+15, {color:"white", align:"center", font:"Arial", size:12});
-				       //}
-				       var textLen = Math.max(gfx.textWidth(details[0],Math.max(gfx.textWidth(details[1],gfx.textWidth(details[2])))))+20;
-				       //var textLen = 80;				       
-				       ctx.beginPath();
-				       ctx.moveTo(pt.x+imgWidth/2,pt.y-imgHeight/2+3);
-				       ctx.lineTo(pt.x+imgWidth/2+8,pt.y-imgHeight/2);
-				       ctx.lineTo(pt.x+imgWidth/2+8+textLen,pt.y-imgHeight/2);
-				       ctx.lineTo(pt.x+imgWidth/2+8+textLen,pt.y-imgHeight/2+3*14);
-				       ctx.lineTo(pt.x+imgWidth/2+8,pt.y-imgHeight/2+3*14);
-				       ctx.lineTo(pt.x+imgWidth/2+8,pt.y-imgHeight/2+6);
-				       ctx.lineTo(pt.x+imgWidth/2,pt.y-imgHeight/2+3);
-				       ctx.closePath();
-				       ctx.fillStyle = ctx.strokeStyle;
-				       ctx.fill();
-				       ctx.stroke();
-				       for(var i=0;i<details.length;i++)
-					       gfx.text(details[i],pt.x+imgWidth/2+3+textLen/2+8,pt.y-imgHeight/2+i*14+14,{color:'white',align:'center',font:'Arial',size:12});
-}
+					       //for(var i=0;i<details.length;i++){
+					       //        var textLen = gfx.textWidth(details[i]);
+					       //        gfx.rect(detailPositions[i].x, detailPositions[i].y, textLen, 20, 4, {fill:ctx.strokeStyle, alpha:node.data.alpha});
+					       //        gfx.text(details[i], detailPositions[i].x+textLen/2, detailPositions[i].y+15, {color:"white", align:"center", font:"Arial", size:12});
+					       //}
+					       var textLen = Math.max(gfx.textWidth(details[0],Math.max(gfx.textWidth(details[1],gfx.textWidth(details[2])))))+20;
+					       //var textLen = 80;				       
+					       ctx.beginPath();
+					       ctx.moveTo(pt.x+radius,pt.y+3);
+					       ctx.lineTo(pt.x+radius+8,pt.y);
+					       ctx.lineTo(pt.x+radius+textLen,pt.y);
+					       ctx.lineTo(pt.x+radius+textLen,pt.y+3*14);
+					       ctx.lineTo(pt.x+radius+8,pt.y+3*14);
+					       ctx.lineTo(pt.x+radius+8,pt.y+6);
+					       ctx.lineTo(pt.x+radius,pt.y+3);
+					       ctx.closePath();
+					       ctx.fillStyle = ctx.strokeStyle;
+					       ctx.fill();
+					       ctx.stroke();
+					       for(var i=0;i<details.length;i++)
+						       gfx.text(details[i],pt.x+radius+3+textLen/2,pt.y+i*14+14,{color:'white',align:'center',font:'Arial',size:12});
+				       }
 
 				       var removeImage = new Image();
 				       removeImage.src = 'remove.png';
@@ -193,8 +203,6 @@ if(node.data.details){
 				       addP.y = pt.y-imgHeight/2;
 				       ctx.drawImage(addImage,addP.x,addP.y);
 			       }else{
-				       var radius = Math.min(imgWidth/2,imgHeight/2);
-				       // nodeBoxes[node.name]=[pt.x,pt.y,radius];
 				       nodeBoxes[node.name].x=pt.x;
 				       nodeBoxes[node.name].y=pt.y;
 				       nodeBoxes[node.name].radius=radius;
@@ -334,6 +342,7 @@ clicked:function(e){
 			}else	if (nodeData.type == 'image') {
 				edgesFrom = sys.getEdgesFrom(dragged.node);
 				$.each(edgesFrom, function(index, edge) {
+if(edge.source.data.maim||edge.target.data.main)
 						edge.data.width = 5;
 						});
 				if (nearest.node.name!=_section){
@@ -398,7 +407,7 @@ dropped:function(e){
  $(document).ready(function(){
 
 		 var sys = arbor.ParticleSystem()
-		 sys.parameters({stiffness:1800, repulsion:1000, gravity:true,dt:0.015});
+		 sys.parameters({stiffness:1300, repulsion:2000, gravity:true,dt:0.008});
 		 sys.renderer = Renderer("#sitemap")
 		 sys.graft(changeJson())
 

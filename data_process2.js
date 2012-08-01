@@ -258,9 +258,9 @@ var originalData =
 			if(current.imgurl.length == 0)
 				site.nodes[current.keyword].img = null;
 			else{
-				//	site.nodes[current.keyword].img.url = current.imgurl
-				var urls = current.imgurl.split('.');
-				site.nodes[current.keyword].img.url ="./pic/"+ current.keyword+'.'+urls[urls.length-1];
+					site.nodes[current.keyword].img.url = current.imgurl
+				//var urls = current.imgurl.split('.');
+				//site.nodes[current.keyword].img.url ="./pic/"+ current.keyword+'.'+urls[urls.length-1];
 				site.nodes[current.keyword].img.size = getSizeFromWeight(current.weight);
 			}
 			site.nodes[current.keyword].weight = current.weight;
