@@ -224,22 +224,23 @@ var originalData =
 	"imgurl":"http://pic.aminer.org/picture/images/no_photo.jpg",
 	"links":[[402579,100,0],[902365,100,0]]}]
 
+	var allPaths = new Array();
 
 	function changeJson(){
 		//var original = new Array(32); 
-	//	var queried = [963489,1120181,397055,74831,412623,666565]; 
+		//	var queried = [963489,1120181,397055,74831,412623,666565]; 
 		var queried = [963489,1120181,397055,74831,412623]; 
-	//	var queried = [963489,1120181,397055,74831]; 
-	//	var queried = [963489,1120181,397055]; 
-	//	var queried = [963489,1120181]; 
-	//	var queried = [1120181]; 
+		//	var queried = [963489,1120181,397055,74831]; 
+		//	var queried = [963489,1120181,397055]; 
+		//	var queried = [963489,1120181]; 
+		//	var queried = [1120181]; 
 		var original = originalData;
 		var site = {};
 		site.nodes = {};
 		site.edges = {};
 
 		var mainPositions = coordinate(queried.length,{x:0,y:0},2.5);
-		var mainNum = 0;
+		var mainNodes = new Array();
 
 		for(var i = 0;i < original.length;i++)
 		{
@@ -247,9 +248,9 @@ var originalData =
 			site.nodes[current.keyword] = {};
 			if(queried.contains(original[i].keyword)){
 				site.nodes[current.keyword].main = true;
-					site.nodes[current.keyword].xx = mainPositions[mainNum].x;
-				site.nodes[current.keyword].yy = mainPositions[mainNum].y;
-				mainNum++;
+				site.nodes[current.keyword].xx = mainPositions[mainNodes.length].x;
+				site.nodes[current.keyword].yy = mainPositions[mainNodes.length].y;
+				mainNodes.push(current);
 			}
 
 			site.nodes[current.keyword].type = "image";
@@ -258,24 +259,24 @@ var originalData =
 			if(current.imgurl.length == 0)
 				site.nodes[current.keyword].img = null;
 			else{
-					site.nodes[current.keyword].img.url = current.imgurl
-				//var urls = current.imgurl.split('.');
-				//site.nodes[current.keyword].img.url ="./pic/"+ current.keyword+'.'+urls[urls.length-1];
-				site.nodes[current.keyword].img.size = getSizeFromWeight(current.weight);
+				site.nodes[current.keyword].img.url = current.imgurl
+					//var urls = current.imgurl.split('.');
+					//site.nodes[current.keyword].img.url ="./pic/"+ current.keyword+'.'+urls[urls.length-1];
+					site.nodes[current.keyword].img.size = getSizeFromWeight(current.weight);
 			}
 			site.nodes[current.keyword].weight = current.weight;
 			site.nodes[current.keyword].name = current.name;
 			site.nodes[current.keyword].details = current.details;
-			var details = current.details.split('\n');
 
+			site.nodes[current.keyword].paths = new Array();
 			site.edges[current.keyword] = {};
 			for(var j = 0;j < current.links.length;j++){
 				site.edges[current.keyword][current.links[j][0]] = {};
 				site.edges[current.keyword][current.links[j][0]].length = 0.8;
 				site.edges[current.keyword][current.links[j][0]].width = 2;
-if(Math.random() > 0.7){
-				//site.edges[current.keyword][current.links[j][0]].directed = true;
-}
+				if(Math.random() > 0.7){
+					//site.edges[current.keyword][current.links[j][0]].directed = true;
+				}
 				//for(var k = 0;k < details.leeh;k++){
 				//	site.nodes[details[k]]={};
 				//	site.nodes[details[k]].type = "detail";
@@ -287,6 +288,12 @@ if(Math.random() > 0.7){
 			}
 
 		}
+		for(var m=0;m<mainNodes.length;m++){
+			for(var n=m+1;n<mainNodes.length;n++){
+				findPathsBetweenTwoNodes(site,new Array(),mainNodes[m],mainNodes[n]);
+			}
+		}
+
 		return eval("("+JSON.stringify(site)+")");
 	}
 
@@ -330,6 +337,39 @@ function getSizeFromWeight(weight){
 	return minSize+(maxSize-minSize)*(weight/(100-0));
 }
 
-function findPathsBetweenTwoNodes(cNode,pNode,sNode,eNode){
 
+function findPathsBetweenTwoNodes(site,cPathStack,startNode,endNode){
+	if(startNode ==null || endNode == null)return;
+	if(startNode != endNode){
+		cPathStack.push(startNode.keyword);
+		for(var i=0;i<startNode.links.length;i++){
+			var nextKey = startNode.links[i][0];
+			if(cPathStack.contains(nextKey))
+				continue;
+			if(nextKey!= endNode.keyword&&site.nodes[nextKey].main) continue;
+			else{
+				findPathsBetweenTwoNodes(site,cPathStack,getNode(startNode.links[i][0]),endNode);
+			}
+		}
+		cPathStack.pop();
+	}else{
+		cPathStack.push(startNode.keyword);
+		allPaths[allPaths.length]=cPathStack.slice();
+		cPathStack.pop();
+		for(var i=0;i< cPathStack.length;i++){
+			site.nodes[cPathStack[i]].paths.push(allPaths.length);
+		}
+	}
+
+}
+function getNode(keyword){
+	for(var i = 0;i < originalData.length;i++)
+	{
+		if(originalData[i].keyword==keyword)
+			return originalData[i]
+	}
+}
+
+function getAllPaths(){
+	return allPaths;
 }

@@ -27,7 +27,7 @@
  var removeP = {};
 
  var nodeBoxes = {};
-var edgeBoxes;
+ var edgeBoxes;
 
  var intersect_line_node = function(p1, p2, boxTuple)
  {
@@ -342,7 +342,7 @@ clicked:function(e){
 			}else	if (nodeData.type == 'image') {
 				edgesFrom = sys.getEdgesFrom(dragged.node);
 				$.each(edgesFrom, function(index, edge) {
-if(edge.source.data.maim||edge.target.data.main)
+						if(edge.source.data.maim||edge.target.data.main)
 						edge.data.width = 5;
 						});
 				if (nearest.node.name!=_section){
@@ -402,7 +402,7 @@ dropped:function(e){
 
  return that
  }
-
+ var allPaths;
 
  $(document).ready(function(){
 
@@ -410,6 +410,6 @@ dropped:function(e){
 		 sys.parameters({stiffness:1300, repulsion:2000, gravity:true,dt:0.008});
 		 sys.renderer = Renderer("#sitemap")
 		 sys.graft(changeJson())
-
+		 allPaths = getAllPaths();
 		 })
 })(this.jQuery)
