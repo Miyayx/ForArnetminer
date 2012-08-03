@@ -310,10 +310,13 @@ moved:function(e){
 	      if (nearest.node.data.type=='image'){
 		      if (nearest.node.name!=_section){
 			      if(_section!==null){
-				      edgesFrom = sys.getEdgesFrom(sys.getNode(_section));
-				      $.each(edgesFrom, function(index, edge) {
-						      edge.data.width = 2;
-						      });
+				      for(var i=0;i<sys.getNode(_section).data.paths.length;i++){
+					      var path = allPaths[sys.getNode(_section).data.paths[i]];
+					      for(var j=0; j < path.length-1;j++){
+						      var	edge = sys.getEdges(sys.getNode(path[j]),sys.getNode(path[j+1]));
+						      edge[0].data.width = 2;
+					      }
+				      }
 				      that.removeMoved(_section);
 			      }
 
@@ -330,7 +333,6 @@ clicked:function(e){
 		nearest = dragged = sys.nearest(_mouseP);
 
 		if(dragged && dragged.node !== null){
-			//	dragged.node.fixed = true;
 			nodeData = dragged.node.data;
 			if(_mouseP.x >= removeP.x&&_mouseP.x <= removeP.x+16&&_mouseP.y >= removeP.y && _mouseP.y <= removeP.y+16){
 				sys.pruneNode(nearest.node.name);
@@ -340,24 +342,32 @@ clicked:function(e){
 			}else if(_mouseP.x >= addP.x&&_mouseP.x <= addP.x+16&&_mouseP.y >= removeP.y&&_mouseP.y <= removeP.y+16){
 				that.addNewNode(nearest.node.name);
 			}else	if (nodeData.type == 'image') {
-				edgesFrom = sys.getEdgesFrom(dragged.node);
-				$.each(edgesFrom, function(index, edge) {
-						if(edge.source.data.maim||edge.target.data.main)
-						edge.data.width = 5;
-						});
-				if (nearest.node.name!=_section){
-					if(_section!==null){
-						edgesFrom = sys.getEdgesFrom(sys.getNode(_section));
-						$.each(edgesFrom, function(index, edge) {
-								edge.data.width = 2;
-								});
-						//	that.removeDetails(_section);
+				//	edgesFrom = sys.getEdgesFrom(dragged.node);
+				//	$.each(edgesFrom, function(index, edge) {
+				//			if(edge.source.data.maim||edge.target.data.main)
+				//			edge.data.width = 5;
+				//			});
+				for(var i=0;i<dragged.node.data.paths.length;i++){
+					var path = allPaths[dragged.node.data.paths[i]];
+					for(var j=0; j < path.length-1;j++){
+						var	edge = sys.getEdges(sys.getNode(path[j]),sys.getNode(path[j+1]));
+						edge[0].data.width = 5;
 					}
 				}
-
-				_section = nearest.node.name;
-				//	that.addDetails(_section);
+				if (nearest.node.name!=_section){
+					if(_section!==null){
+						for(var i=0;i<sys.getNode(_section).data.paths.length;i++){
+							var path = allPaths[sys.getNode(_section).data.paths[i]];
+							for(var j=0; j < path.length-1;j++){
+								var	edge = sys.getEdges(sys.getNode(path[j]),sys.getNode(path[j+1]));
+								edge[0].data.width = 2;
+							}
+						}
+					}
+					_section = nearest.node.name;
+				}
 			}
+
 		}
 
 		$(canvas).unbind('mousemove', handler.moved);

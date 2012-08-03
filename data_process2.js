@@ -229,10 +229,10 @@ var originalData =
 	function changeJson(){
 		//var original = new Array(32); 
 		//	var queried = [963489,1120181,397055,74831,412623,666565]; 
-		var queried = [963489,1120181,397055,74831,412623]; 
+	//	var queried = [963489,1120181,397055,74831,412623]; 
 		//	var queried = [963489,1120181,397055,74831]; 
 		//	var queried = [963489,1120181,397055]; 
-		//	var queried = [963489,1120181]; 
+			var queried = [963489,1120181]; 
 		//	var queried = [1120181]; 
 		var original = originalData;
 		var site = {};
@@ -357,7 +357,7 @@ function findPathsBetweenTwoNodes(site,cPathStack,startNode,endNode){
 		allPaths[allPaths.length]=cPathStack.slice();
 		cPathStack.pop();
 		for(var i=0;i< cPathStack.length;i++){
-			site.nodes[cPathStack[i]].paths.push(allPaths.length);
+			site.nodes[cPathStack[i]].paths.push(allPaths.length-1);
 		}
 	}
 
