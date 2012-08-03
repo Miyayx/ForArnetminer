@@ -225,77 +225,90 @@ var originalData =
 	"links":[[402579,100,0],[902365,100,0]]}]
 
 	var allPaths = new Array();
+	var shortestPaths = new Array();
+	var shortestIndex = 0;
 
-	function changeJson(){
-		//var original = new Array(32); 
-		//	var queried = [963489,1120181,397055,74831,412623,666565]; 
+	var lineColor = '#23a4ff',
+	clickedLineColor = '#ffa500',
+	imgLineColor =  '#23a4ff',
+	mainImgLineColor = '#ffa500';
+
+function changeJson(){
+	//var original = new Array(32); 
+	//	var queried = [963489,1120181,397055,74831,412623,666565]; 
 	//	var queried = [963489,1120181,397055,74831,412623]; 
-		//	var queried = [963489,1120181,397055,74831]; 
-		//	var queried = [963489,1120181,397055]; 
-			var queried = [963489,1120181]; 
-		//	var queried = [1120181]; 
-		var original = originalData;
-		var site = {};
-		site.nodes = {};
-		site.edges = {};
+	//	var queried = [963489,1120181,397055,74831]; 
+	//	var queried = [963489,1120181,397055]; 
+	var queried = [963489,1120181]; 
+	//	var queried = [1120181]; 
+	var original = originalData;
+	var site = {};
+	site.nodes = {};
+	site.edges = {};
 
-		var mainPositions = coordinate(queried.length,{x:0,y:0},2.5);
-		var mainNodes = new Array();
+	var mainPositions = coordinate(queried.length,{x:0,y:0},2.5);
+	var mainNodes = new Array();
 
-		for(var i = 0;i < original.length;i++)
-		{
-			var current = original[i];
-			site.nodes[current.keyword] = {};
-			if(queried.contains(original[i].keyword)){
-				site.nodes[current.keyword].main = true;
-				site.nodes[current.keyword].xx = mainPositions[mainNodes.length].x;
-				site.nodes[current.keyword].yy = mainPositions[mainNodes.length].y;
-				mainNodes.push(current);
-			}
-
-			site.nodes[current.keyword].type = "image";
-			site.nodes[current.keyword].alpha = 1;
-			site.nodes[current.keyword].img = {};
-			if(current.imgurl.length == 0)
-				site.nodes[current.keyword].img = null;
-			else{
-				site.nodes[current.keyword].img.url = current.imgurl
-					//var urls = current.imgurl.split('.');
-					//site.nodes[current.keyword].img.url ="./pic/"+ current.keyword+'.'+urls[urls.length-1];
-					site.nodes[current.keyword].img.size = getSizeFromWeight(current.weight);
-			}
-			site.nodes[current.keyword].weight = current.weight;
-			site.nodes[current.keyword].name = current.name;
-			site.nodes[current.keyword].details = current.details;
-
-			site.nodes[current.keyword].paths = new Array();
-			site.edges[current.keyword] = {};
-			for(var j = 0;j < current.links.length;j++){
-				site.edges[current.keyword][current.links[j][0]] = {};
-				site.edges[current.keyword][current.links[j][0]].length = 0.8;
-				site.edges[current.keyword][current.links[j][0]].width = 2;
-				if(Math.random() > 0.7){
-					//site.edges[current.keyword][current.links[j][0]].directed = true;
-				}
-				//for(var k = 0;k < details.leeh;k++){
-				//	site.nodes[details[k]]={};
-				//	site.nodes[details[k]].type = "detail";
-				//	site.nodes[details[k]].alpha = 0;
-				//site.nodes[details[k]].color = "#23a4ff";
-				//				site.edges[current.keyword][details[k]]={};
-				//
-				//				}
-			}
-
-		}
-		for(var m=0;m<mainNodes.length;m++){
-			for(var n=m+1;n<mainNodes.length;n++){
-				findPathsBetweenTwoNodes(site,new Array(),mainNodes[m],mainNodes[n]);
-			}
+	for(var i = 0;i < original.length;i++)
+	{
+		var current = original[i];
+		site.nodes[current.keyword] = {};
+		if(queried.contains(original[i].keyword)){
+			site.nodes[current.keyword].main = true;
+			site.nodes[current.keyword].color = '#ffa500';
+			site.nodes[current.keyword].xx = mainPositions[mainNodes.length].x;
+			site.nodes[current.keyword].yy = mainPositions[mainNodes.length].y;
+			mainNodes.push(current);
+		}else{
+			site.nodes[current.keyword].color = '#23a4ff';
 		}
 
-		return eval("("+JSON.stringify(site)+")");
+		site.nodes[current.keyword].type = "image";
+		site.nodes[current.keyword].alpha = 1;
+		site.nodes[current.keyword].img = {};
+		if(current.imgurl.length == 0)
+			site.nodes[current.keyword].img = null;
+		else{
+			site.nodes[current.keyword].img.url = current.imgurl
+				//var urls = current.imgurl.split('.');
+				//site.nodes[current.keyword].img.url ="./pic/"+ current.keyword+'.'+urls[urls.length-1];
+				site.nodes[current.keyword].img.size = getSizeFromWeight(current.weight);
+		}
+		site.nodes[current.keyword].weight = current.weight;
+		site.nodes[current.keyword].name = current.name;
+		site.nodes[current.keyword].details = current.details;
+
+		site.nodes[current.keyword].paths = new Array();
+		site.edges[current.keyword] = {};
+		for(var j = 0;j < current.links.length;j++){
+			site.edges[current.keyword][current.links[j][0]] = {};
+			site.edges[current.keyword][current.links[j][0]].length = 0.8;
+			site.edges[current.keyword][current.links[j][0]].width = 2;
+			site.edges[current.keyword][current.links[j][0]].color = '#23a4ff';
+			if(Math.random() > 0.7){
+				//site.edges[current.keyword][current.links[j][0]].directed = true;
+			}
+			//for(var k = 0;k < details.leeh;k++){
+			//	site.nodes[details[k]]={};
+			//	site.nodes[details[k]].type = "detail";
+			//	site.nodes[details[k]].alpha = 0;
+			//site.nodes[details[k]].color = "#23a4ff";
+			//				site.edges[current.keyword][details[k]]={};
+			//
+			//				}
+		}
+
 	}
+	for(var m=0;m<mainNodes.length;m++){
+		for(var n=m+1;n<mainNodes.length;n++){
+			var length =  Number.MAX_VALUE;
+			findPathsBetweenTwoNodes(site,new Array(),length,mainNodes[m],mainNodes[n]);
+			shortestPaths.push(shortestIndex);
+		}
+	}
+
+	return eval("("+JSON.stringify(site)+")");
+}
 
 
 Array.prototype.contains = function (element) {    
@@ -338,7 +351,7 @@ function getSizeFromWeight(weight){
 }
 
 
-function findPathsBetweenTwoNodes(site,cPathStack,startNode,endNode){
+function findPathsBetweenTwoNodes(site,cPathStack,length,startNode,endNode){
 	if(startNode ==null || endNode == null)return;
 	if(startNode != endNode){
 		cPathStack.push(startNode.keyword);
@@ -348,17 +361,23 @@ function findPathsBetweenTwoNodes(site,cPathStack,startNode,endNode){
 				continue;
 			if(nextKey!= endNode.keyword&&site.nodes[nextKey].main) continue;
 			else{
-				findPathsBetweenTwoNodes(site,cPathStack,getNode(startNode.links[i][0]),endNode);
+				findPathsBetweenTwoNodes(site,cPathStack,length,getNode(startNode.links[i][0]),endNode);
 			}
 		}
 		cPathStack.pop();
 	}else{
 		cPathStack.push(startNode.keyword);
-		allPaths[allPaths.length]=cPathStack.slice();
-		cPathStack.pop();
-		for(var i=0;i< cPathStack.length;i++){
-			site.nodes[cPathStack[i]].paths.push(allPaths.length-1);
+		if(cPathStack.length<=7){
+			allPaths[allPaths.length]=cPathStack.slice();
+			for(var i=0;i< cPathStack.length;i++){
+				site.nodes[cPathStack[i]].paths.push(allPaths.length-1);
+			}
+			if(cPathStack.length < length){
+				index = allPaths.length-1;
+				length = cPathStack.length;
+			}
 		}
+		cPathStack.pop();
 	}
 
 }

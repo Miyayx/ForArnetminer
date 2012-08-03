@@ -17,11 +17,17 @@
  var ctx = canvas.getContext("2d");
  var gfx = arbor.Graphics(canvas)
  var sys = null
+ // color identify
+ var lineColor = '#23a4ff',
+ clickedLineColor = '#ffa500',
+ imgLineColor =  '#23a4ff',
+ mainImgLineColor = '#ffa500',
+ detailColor = '#23a4ff';
 
- var _vignette = null
+ var _vignette = null;
  var selected = null,
- nearest = null,
- _mouseP = null;
+     nearest = null,
+     _mouseP = null;
 
  var addP = {};
  var removeP = {};
@@ -66,12 +72,7 @@ resize:function(){
        },
 redraw:function(){
 
-	       // color identify
-	       var lineColor = '#23a4ff',
-	       imgLineColor =  '#23a4ff',
-	       mainImgLineColor = '#ffa500',
-	       detailColor = '#23a4ff';
-	       gfx.clear();
+	       gfx.clear(); 
 	       // $("canvas").empty();
 
 
@@ -84,7 +85,7 @@ redraw:function(){
 			       var tail = intersect_line_node(p1, p2, nodeBoxes[edge.source.name]);
 			       var head = intersect_line_node(p2, p1, nodeBoxes[edge.target.name]);
 			       ctx.save();
-			       ctx.fillStyle = lineColor;			      
+			       ctx.fillStyle = edge.data.color;			      
 			       ctx.lineWidth = edge.data.width;
 			       ctx.moveTo(tail.x,tail.y);
 			       ctx.lineTo(head.x,head.y);
@@ -108,7 +109,7 @@ redraw:function(){
 			       ctx.fill();
 			       ctx.restore();
 			       }else
-				       gfx.line(p1, p2, {stroke:lineColor, width:edge.data.width});
+				       gfx.line(p1, p2, {stroke:edge.data.color, width:edge.data.width});
 	       })
 
 	       sys.eachNode(function(node, pt){
@@ -132,10 +133,10 @@ redraw:function(){
 			       node.p.y = node.data.yy;
 			       node.fixed = true;
 			       size = 90;
-			       ctx.strokeStyle = mainImgLineColor;
+			       ctx.strokeStyle = node.data.color;
 			       } else{
-				       node.fixed = false 
-					       ctx.strokeStyle = imgLineColor;
+				       node.fixed = false; 
+				       ctx.strokeStyle = node.data.color;
 				       size = node.data.img.size;
 			       }
 			       //
@@ -175,21 +176,22 @@ redraw:function(){
 					       //        gfx.text(details[i], detailPositions[i].x+textLen/2, detailPositions[i].y+15, {color:"white", align:"center", font:"Arial", size:12});
 					       //}
 					       var textLen = Math.max(gfx.textWidth(details[0],Math.max(gfx.textWidth(details[1],gfx.textWidth(details[2])))))+20;
-					       //var textLen = 80;				       
+					       //var textLen = 80;		
+					       var offset = 2;		       
 					       ctx.beginPath();
-					       ctx.moveTo(pt.x+radius,pt.y+3);
-					       ctx.lineTo(pt.x+radius+8,pt.y);
-					       ctx.lineTo(pt.x+radius+textLen,pt.y);
-					       ctx.lineTo(pt.x+radius+textLen,pt.y+3*14);
-					       ctx.lineTo(pt.x+radius+8,pt.y+3*14);
-					       ctx.lineTo(pt.x+radius+8,pt.y+6);
-					       ctx.lineTo(pt.x+radius,pt.y+3);
+					       ctx.moveTo(pt.x+radius,pt.y);
+					       ctx.lineTo(pt.x+radius+8,pt.y-3);
+					       ctx.lineTo(pt.x+radius+textLen+2*offset,pt.y-3);
+					       ctx.lineTo(pt.x+radius+textLen+2*offset,pt.y-3+3*15+3);
+					       ctx.lineTo(pt.x+radius+8,pt.y-3+3*15+3);
+					       ctx.lineTo(pt.x+radius+8,pt.y+3);
+					       ctx.lineTo(pt.x+radius,pt.y);
 					       ctx.closePath();
 					       ctx.fillStyle = ctx.strokeStyle;
 					       ctx.fill();
 					       ctx.stroke();
 					       for(var i=0;i<details.length;i++)
-						       gfx.text(details[i],pt.x+radius+3+textLen/2,pt.y+i*14+14,{color:'white',align:'center',font:'Arial',size:12});
+						       gfx.text(details[i],pt.x+radius+3+textLen/2+offset,pt.y+i*15+12,{color:'white',align:'center',font:'Arial',size:12});
 				       }
 
 				       var removeImage = new Image();
@@ -212,7 +214,10 @@ redraw:function(){
 				       ctx.clip();
 				       ctx.closePath();
 				       ctx.drawImage(image, pt.x-radius,pt.y-size/2,imgWidth,imgHeight);
-				       ctx.lineWidth = 5;
+				       ctx.beginPath();
+				       ctx.arc(pt.x,pt.y,radius-1.8,0, Math.PI * 2, true);
+				       ctx.closePath();
+				       ctx.lineWidth = 3;
 				       ctx.stroke();
 				       ctx.restore();
 
@@ -256,30 +261,6 @@ addNewNode:function(name){
 		   sys.addEdge(node,newNode,{length:0.1});
 	   },
 
-addDetails:function(name){
-		   var node = sys.getNode(name);
-		   var details = node.data.details.split('\n');
-		   for(var i=0; i<details.length;i++){
-			   data = {type:"details",alpha:1,color:"#23a4ff"}
-			   var newNode = sys.addNode(details[i],data);
-			   newNode._p.x = node._p.x + .05*Math.random() - .025;
-			   newNode._p.y = node._p.y + .05*Math.random() - .025;
-			   newNode.tempMass = .001;
-			   sys.addEdge(node,newNode,{length:0.1});
-
-		   }
-	   },
-removeDetails:function(name){
-		      var node = sys.getNode(name);
-		      var children = $.map(sys.getEdgesFrom(name), function(edge){
-				      return edge.target
-				      })
-		      for(var i=0;i<children.length;i++){
-			      if(children[i].data.type == 'detail')
-				      sys.pruneNode(children[i].name)
-		      }
-	      },
-
 addMoved:function(name){
 		 var node = sys.getNode(name);
 		 node.data.moved = true;
@@ -313,8 +294,23 @@ moved:function(e){
 				      for(var i=0;i<sys.getNode(_section).data.paths.length;i++){
 					      var path = allPaths[sys.getNode(_section).data.paths[i]];
 					      for(var j=0; j < path.length-1;j++){
-						      var	edge = sys.getEdges(sys.getNode(path[j]),sys.getNode(path[j+1]));
-						      edge[0].data.width = 2;
+						      var node1 = sys.getNode(path[j]);
+						      var node2 = sys.getNode(path[j+1]);
+						      var edge1 = sys.getEdges(node1,node2);
+						      edge1[0].data.width = 2;
+						      edge1[0].data.color = lineColor;
+						      var edge2 = sys.getEdges(node2,node1);
+						      edge2[0].data.width = 2;
+						      edge2[0].data.color=lineColor;
+						      if(node1.data.main)
+							      node1.data.color = mainImgLineColor;
+						      else
+							      node1.data.color = lineColor;
+
+						      if(node2.data.main)
+							      node2.data.color = mainImgLineColor;
+						      else
+							      node2.data.color = lineColor;
 					      }
 				      }
 				      that.removeMoved(_section);
@@ -350,8 +346,17 @@ clicked:function(e){
 				for(var i=0;i<dragged.node.data.paths.length;i++){
 					var path = allPaths[dragged.node.data.paths[i]];
 					for(var j=0; j < path.length-1;j++){
-						var	edge = sys.getEdges(sys.getNode(path[j]),sys.getNode(path[j+1]));
-						edge[0].data.width = 5;
+						var node1 = sys.getNode(path[j]);
+						var node2 = sys.getNode(path[j+1]);
+						var edge1 = sys.getEdges(node1,node2);
+						edge1[0].data.width = 4;
+						edge1[0].data.color = clickedLineColor;
+						var edge2 = sys.getEdges(node2,node1);
+						edge2[0].data.width = 4;
+						edge2[0].data.color=clickedLineColor;
+
+						node1.data.color = clickedLineColor;
+						node2.data.color = clickedLineColor;
 					}
 				}
 				if (nearest.node.name!=_section){
@@ -361,6 +366,7 @@ clicked:function(e){
 							for(var j=0; j < path.length-1;j++){
 								var	edge = sys.getEdges(sys.getNode(path[j]),sys.getNode(path[j+1]));
 								edge[0].data.width = 2;
+								edge[0].data.color = lineColor;
 							}
 						}
 					}
