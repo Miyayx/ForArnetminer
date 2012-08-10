@@ -227,6 +227,7 @@ var originalData =
 	var allPaths = new Array();
 	var shortestPaths = new Array();
 	var shortestIndex = 0;
+	var length = Number.MAX_VALUE;
 
 	var lineColor = '#23a4ff',
 	clickedLineColor = '#ffa500',
@@ -238,8 +239,8 @@ function changeJson(){
 	//	var queried = [963489,1120181,397055,74831,412623,666565]; 
 	//	var queried = [963489,1120181,397055,74831,412623]; 
 	//	var queried = [963489,1120181,397055,74831]; 
-	//	var queried = [963489,1120181,397055]; 
-	var queried = [963489,1120181]; 
+	var queried = [963489,1120181,397055]; 
+	//	var queried = [963489,1120181]; 
 	//	var queried = [1120181]; 
 	var original = originalData;
 	var site = {};
@@ -300,9 +301,9 @@ function changeJson(){
 
 	}
 	for(var m=0;m<mainNodes.length;m++){
+		length = Number.MAX_VALUE;
 		for(var n=m+1;n<mainNodes.length;n++){
-			var length =  Number.MAX_VALUE;
-			findPathsBetweenTwoNodes(site,new Array(),length,mainNodes[m],mainNodes[n]);
+			findPathsBetweenTwoNodes(site,new Array(),mainNodes[m],mainNodes[n]);
 			shortestPaths.push(shortestIndex);
 		}
 	}
@@ -351,7 +352,7 @@ function getSizeFromWeight(weight){
 }
 
 
-function findPathsBetweenTwoNodes(site,cPathStack,length,startNode,endNode){
+function findPathsBetweenTwoNodes(site,cPathStack,startNode,endNode){
 	if(startNode ==null || endNode == null)return;
 	if(startNode != endNode){
 		cPathStack.push(startNode.keyword);
@@ -361,7 +362,7 @@ function findPathsBetweenTwoNodes(site,cPathStack,length,startNode,endNode){
 				continue;
 			if(nextKey!= endNode.keyword&&site.nodes[nextKey].main) continue;
 			else{
-				findPathsBetweenTwoNodes(site,cPathStack,length,getNode(startNode.links[i][0]),endNode);
+				findPathsBetweenTwoNodes(site,cPathStack,getNode(startNode.links[i][0]),endNode);
 			}
 		}
 		cPathStack.pop();
@@ -373,8 +374,8 @@ function findPathsBetweenTwoNodes(site,cPathStack,length,startNode,endNode){
 				site.nodes[cPathStack[i]].paths.push(allPaths.length-1);
 			}
 			if(cPathStack.length < length){
-				index = allPaths.length-1;
-				length = cPathStack.length;
+				shortestIndex = allPaths.length-1;
+				length = allPaths[shortestIndex].length;
 			}
 		}
 		cPathStack.pop();
@@ -391,4 +392,8 @@ function getNode(keyword){
 
 function getAllPaths(){
 	return allPaths;
+}
+
+function getShortestPaths(){
+	return shortestPaths;
 }

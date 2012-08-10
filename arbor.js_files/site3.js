@@ -22,39 +22,40 @@
  clickedLineColor = '#ffa500',
  imgLineColor =  '#23a4ff',
  mainImgLineColor = '#ffa500',
+ shortestPathColor = '#CD69C9',
  detailColor = '#23a4ff';
 
- var _vignette = null;
- var selected = null,
-     nearest = null,
-     _mouseP = null;
+var _vignette = null;
+var selected = null,
+    nearest = null,
+    _mouseP = null;
 
- var addP = {};
- var removeP = {};
+var addP = {};
+var removeP = {};
 
- var nodeBoxes = {};
- var edgeBoxes;
+var nodeBoxes = {};
+var edgeBoxes;
 
- var intersect_line_node = function(p1, p2, boxTuple)
- {
-	 var r = boxTuple[2];
-	 var d = Math.sqrt(Math.pow(p2.y-p1.y,2)+Math.pow(p2.x-p1.x,2));
-	 var arc = Math.asin(Math.abs(p2.y-p1.y)/d);
-	 var offsetY=(r+3)*Math.sin(arc);
-	 var offsetX=(r+3)*Math.cos(arc);      	   
+var intersect_line_node = function(p1, p2, boxTuple)
+{
+	var r = boxTuple[2];
+	var d = Math.sqrt(Math.pow(p2.y-p1.y,2)+Math.pow(p2.x-p1.x,2));
+	var arc = Math.asin(Math.abs(p2.y-p1.y)/d);
+	var offsetY=(r+3)*Math.sin(arc);
+	var offsetX=(r+3)*Math.cos(arc);      	   
 
-	 if(p1.x > p2.x&&p1.y > p2.y)
-		 return {x:p1.x-offsetX,y:p1.y-offsetY};
-	 else if(p1.x<p2.x&&p1.y>p2.y)
-		 return {x:p1.x+offsetX,y:p1.y-offsetY};
-	 else if(p1.x>p2.x&&p1.y<p2.y)
-		 return {x:p1.x-offsetX,y:p1.y+offsetY};
-	 else
-		 return {x:p1.x+offsetX,y:p1.y+offsetY};
+	if(p1.x > p2.x&&p1.y > p2.y)
+		return {x:p1.x-offsetX,y:p1.y-offsetY};
+	else if(p1.x<p2.x&&p1.y>p2.y)
+		return {x:p1.x+offsetX,y:p1.y-offsetY};
+	else if(p1.x>p2.x&&p1.y<p2.y)
+		return {x:p1.x-offsetX,y:p1.y+offsetY};
+	else
+		return {x:p1.x+offsetX,y:p1.y+offsetY};
 
- }
+}
 
- var that = {
+var that = {
 init:function(pSystem){
 	     sys = pSystem;
 	     sys.screen({size:{width:dom.width(), height:dom.height()},
@@ -97,9 +98,6 @@ redraw:function(){
 			       ctx.translate(head.x, head.y);
 			       ctx.rotate(Math.atan2(head.y - tail.y, head.x - tail.x));
 
-			       // delete some of the edge that's already there (so the point isn't hidden)
-			       //   ctx.clearRect(-arrowLength/2,-wt/2, arrowLength/2,wt);
-			       // draw the chevron
 			       ctx.beginPath();
 			       ctx.moveTo(-arrowLength, arrowWidth);
 			       ctx.lineTo(0, 0);
@@ -213,11 +211,13 @@ redraw:function(){
 				       ctx.arc(pt.x,pt.y,radius,0, Math.PI * 2, true);
 				       ctx.clip();
 				       ctx.closePath();
-				       ctx.drawImage(image, pt.x-radius,pt.y-size/2,imgWidth,imgHeight);
-				       ctx.beginPath();
-				       ctx.arc(pt.x,pt.y,radius-1.8,0, Math.PI * 2, true);
-				       ctx.closePath();
-				       ctx.lineWidth = 3;
+				     //  ctx.drawImage(image, pt.x-radius,pt.y-size/2,imgWidth,imgHeight);
+var grd=ctx.createRadialGradient(pt.x,pt.y,radius,pt.x,pt.y,radius+3);
+grd.addColorStop(0,"red");
+grd.addColorStop(1,"white");
+ctx.fillStyle=grd;
+ctx.fillRect(0,0,150,100);				       
+ctx.lineWidth = 3;
 				       ctx.stroke();
 				       ctx.restore();
 
@@ -250,15 +250,25 @@ switchMode:function(e){
 			   if (sys) sys.start()
 		   }
 	   },
+removeNode:function(name){
+		   var node = sys.getNode(name);
+		   var nodeData = node.data;
+		   for(var i=0;i<nodeData.paths.length;i++){
+			   allPaths[nodeData.paths[i]] = null;
 
+		   }
+
+		   sys.pruneNode(name);
+		   nodeBoxes[name]= undefined;
+	   },
 addNewNode:function(name){
 		   var node = sys.getNode(name);
-		   data = {type:"image",name:name+'_newNode',img:{url:'./pic/no_photo.png',size:50}};
+		   data = {type:"image",name:name+'_newNode',img:{url:'http://pic.aminer.org/picture/images/no_photo.jpg',size:50},color:imgLineColor,paths:new Array()};
 		   var newNode = sys.addNode(name+'_newNode',data);
 		   newNode._p.x = node._p.x + .05*Math.random() - .025;
 		   newNode._p.y = node._p.y + .05*Math.random() - .025;
 		   newNode.tempMass = .001;
-		   sys.addEdge(node,newNode,{length:0.1});
+		   sys.addEdge(node,newNode,{length:0.1,color:lineColor,width:2});
 	   },
 
 addMoved:function(name){
@@ -293,6 +303,7 @@ moved:function(e){
 			      if(_section!==null){
 				      for(var i=0;i<sys.getNode(_section).data.paths.length;i++){
 					      var path = allPaths[sys.getNode(_section).data.paths[i]];
+					      if(path == null) continue;
 					      for(var j=0; j < path.length-1;j++){
 						      var node1 = sys.getNode(path[j]);
 						      var node2 = sys.getNode(path[j+1]);
@@ -313,6 +324,18 @@ moved:function(e){
 							      node2.data.color = lineColor;
 					      }
 				      }
+				      for(var i=0;i<shortestPaths.length;i++){
+					      var path = allPaths[shortestPaths[i]];
+					      if(path == null) continue;
+					      for(var j=0;j<path.length-1;j++){
+						      var node1 = sys.getNode(path[j]);
+						      var node2 = sys.getNode(path[j+1]);
+						      var edge1 = sys.getEdges(node1,node2);
+						      edge1[0].data.color = shortestPathColor;
+						      var edge2 = sys.getEdges(node2,node1);
+						      edge2[0].data.color=shortestPathColor;
+
+					      }}
 				      that.removeMoved(_section);
 			      }
 
@@ -329,10 +352,10 @@ clicked:function(e){
 		nearest = dragged = sys.nearest(_mouseP);
 
 		if(dragged && dragged.node !== null){
+			dragged.node.fixed = true;
 			nodeData = dragged.node.data;
 			if(_mouseP.x >= removeP.x&&_mouseP.x <= removeP.x+16&&_mouseP.y >= removeP.y && _mouseP.y <= removeP.y+16){
-				sys.pruneNode(nearest.node.name);
-				nodeBoxes[nearest.node.name]= undefined;
+				that.removeNode(nearest.node.name);
 				_section = null;
 				return false;
 			}else if(_mouseP.x >= addP.x&&_mouseP.x <= addP.x+16&&_mouseP.y >= removeP.y&&_mouseP.y <= removeP.y+16){
@@ -345,6 +368,7 @@ clicked:function(e){
 				//			});
 				for(var i=0;i<dragged.node.data.paths.length;i++){
 					var path = allPaths[dragged.node.data.paths[i]];
+					if(path == null) continue;
 					for(var j=0; j < path.length-1;j++){
 						var node1 = sys.getNode(path[j]);
 						var node2 = sys.getNode(path[j+1]);
@@ -363,6 +387,7 @@ clicked:function(e){
 					if(_section!==null){
 						for(var i=0;i<sys.getNode(_section).data.paths.length;i++){
 							var path = allPaths[sys.getNode(_section).data.paths[i]];
+							if(path == null) continue;
 							for(var j=0; j < path.length-1;j++){
 								var	edge = sys.getEdges(sys.getNode(path[j]),sys.getNode(path[j+1]));
 								edge[0].data.width = 2;
@@ -414,18 +439,19 @@ dropped:function(e){
 			   $(canvas).mousemove(handler.moved);
 
 		   }
- }
+}
 
- return that
- }
- var allPaths;
+return that
+}
+var allPaths;
+var shortestPaths;
+$(document).ready(function(){
 
- $(document).ready(function(){
-
-		 var sys = arbor.ParticleSystem()
-		 sys.parameters({stiffness:1300, repulsion:2000, gravity:true,dt:0.008});
-		 sys.renderer = Renderer("#sitemap")
-		 sys.graft(changeJson())
-		 allPaths = getAllPaths();
-		 })
+		var sys = arbor.ParticleSystem()
+		sys.parameters({stiffness:1300, repulsion:2000, gravity:true,dt:0.008});
+		sys.renderer = Renderer("#sitemap")
+		sys.graft(changeJson())
+		allPaths = getAllPaths();
+		shortestPaths = getShortestPaths();
+		})
 })(this.jQuery)
